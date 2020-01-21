@@ -1,0 +1,14 @@
+<html>
+
+<head>
+	<script src="https://unpkg.com/merge-images"></script>	
+	<script>
+		mergeImages(['body-' + (Math.floor(Math.random()*4) + 1) + '.png', 'eyes-' + (Math.floor(Math.random()*4) + 1) + '.png', 'mouth-' + (Math.floor(Math.random()*4) + 1) + '.png']).then(b64 => document.querySelector('img').src = b64);
+	</script>
+</head>
+
+<body>
+	<img src="" alt="">
+</body>
+
+</html>

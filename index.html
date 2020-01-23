@@ -3,19 +3,114 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://unpkg.com/merge-images"></script>	
-	<script>
-		mergeImages(['faces/body/body-' + (Math.floor(Math.random()*4) + 1) + '.png','faces/eyes/eyes-' + (Math.floor(Math.random()*9) + 1) + '.png', 'faces/forehead/forehead-' + (Math.floor(Math.random()*7) + 1) + '.png', 'faces/mouth/mouth-' + (Math.floor(Math.random()*4) + 1) + '.png', 'faces/nose/nose-' + (Math.floor(Math.random()*4) + 1) + '.png']).then(b64 => document.querySelector('img').src = b64);
-	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css?family=VT323&display=swap" rel="stylesheet">
+	
 	<style>
-		body{max-width:280px; text-align: center; margin:40px auto;}
-		img{max-width:280px;}
-		button{display: inline-block; width:100%; border:0; background:blue; color:white; font-family: courier; font-size: 22px; padding:10px;}
+		body{max-width:350px; text-align: center; margin:0 auto 40px auto; background:url(background.png) no-repeat 50% 50%; background-size:cover; font-family: 'VT323', monospace;}
+		img{max-width:350px;}
+		button{display: inline-block; width:100%; border:0; background:blue; color:white; font-family: 'VT323', monospace; font-size: 34px; padding:10px;}
+
+		.scene {
+  width: 350px;
+  height: 510px;
+  margin: 40px 0;
+  perspective: 600px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  position: relative;
+  transform-origin: center right;
+}
+
+.card.is-flipped {
+  transform: translateX(-100%) rotateY(-180deg);
+}
+
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  line-height: 260px;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 40px;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.card__face--front {
+  background: brown;
+  transform: rotateY(180deg);
+}
+
+.card__face--front img{
+	object-fit: cover;
+	width:100%;
+	height:auto;
+}
+
+.card__face--back {
+  background:url(card-back.png) no-repeat 50% 50%;
+  background-size:cover;
+  
+}
+
+.dismiss{
+	display: none;
+}
+.is-flipped .dismiss{
+	display: inline;
+}
+
+.summon{
+	display: inline;
+}
+.is-flipped .summon{
+	display: none;
+}
+
 	</style>
 </head>
 
 <body>
-	<img src="" alt="" width="280" height="280">
-	<button onClick="window.location.reload();" style="margin-top:40px;">Reload</button>
+	
+	<button class="trigger" style="margin-top:40px;"><span class="summon">SUMMON NPC</span><span class="dismiss">DISMISS</span></button>
+
+<div class="scene scene--card">
+  <div class="card">
+    <div class="card__face card__face--front"><img src="" alt=""></div>
+    <div class="card__face card__face--back">&nbsp;</div>
+  </div>
+</div>
+
 </body>
 
-</html
+<script>
+		function doIt() {
+			mergeImages(['faces/body/body-' + (Math.floor(Math.random()*4) + 1) + '.png','faces/eyes/eyes-' + (Math.floor(Math.random()*9) + 1) + '.png', 'faces/forehead/forehead-' + (Math.floor(Math.random()*7) + 1) + '.png', 'faces/mouth/mouth-' + (Math.floor(Math.random()*4) + 1) + '.png', 'faces/nose/nose-' + (Math.floor(Math.random()*4) + 1) + '.png', 'card-front.png', 'faces/names/first-' + (Math.floor(Math.random()*10) + 1) + '.png', 'faces/names/last-' + (Math.floor(Math.random()*10) + 1) + '.png'], {
+  width: 320,
+  height: 467
+}).then(b64 => document.querySelector('img').src = b64);
+		}
+
+
+		var trigger = document.querySelector('.trigger');
+		var card = document.querySelector('.card');
+		trigger.addEventListener( 'click', function() {
+		  card.classList.toggle('is-flipped');
+		  trigger.classList.toggle('is-flipped');
+		  if ( card.classList.contains('is-flipped') ){
+		  	doIt();
+		  }
+		  
+		});
+	</script>
+
+</html>
